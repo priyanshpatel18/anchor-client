@@ -1,23 +1,27 @@
 'use client'
 
-import { getCounterProgram, getCounterProgramId } from '@project/anchor'
 import { useConnection } from '@solana/wallet-adapter-react'
 import { Cluster, Keypair, PublicKey } from '@solana/web3.js'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
 import { useCluster } from '../cluster/cluster-data-access'
-import { useAnchorProvider } from '../solana/solana-provider'
 import { useTransactionToast } from '../use-transaction-toast'
+import { useAnchorProvider } from '../solana/solana-provider'
+import { useMemo } from 'react'
+import { getCounterProgram, getCounterProgramId } from '@project/anchor'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 export function useCounterProgram() {
+  // Connection config
   const { connection } = useConnection()
   const { cluster } = useCluster()
   const transactionToast = useTransactionToast()
+
+  // Anchor Config
   const provider = useAnchorProvider()
   const programId = useMemo(() => getCounterProgramId(cluster.network as Cluster), [cluster])
   const program = useMemo(() => getCounterProgram(provider, programId), [provider, programId])
 
+  // Get all accounts
   const accounts = useQuery({
     queryKey: ['counter', 'all', { cluster }],
     queryFn: () => program.account.counter.all(),
@@ -32,18 +36,15 @@ export function useCounterProgram() {
     mutationKey: ['counter', 'initialize', { cluster }],
     mutationFn: (keypair: Keypair) =>
       program.methods.initialize().accounts({ counter: keypair.publicKey }).signers([keypair]).rpc(),
-    onSuccess: (signature) => {
-      transactionToast(signature)
-      return accounts.refetch()
-    },
-    onError: () => toast.error('Failed to initialize account'),
+    onSuccess: (signature) => transactionToast(signature),
+    onError: () => toast.error(`Failed to initialize account`),
   })
 
   return {
     program,
     programId,
-    accounts,
     getProgramAccount,
+    accounts,
     initialize,
   }
 }
@@ -58,47 +59,29 @@ export function useCounterProgramAccount({ account }: { account: PublicKey }) {
     queryFn: () => program.account.counter.fetch(account),
   })
 
-  const closeMutation = useMutation({
-    mutationKey: ['counter', 'close', { cluster, account }],
-    mutationFn: () => program.methods.close().accounts({ counter: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accounts.refetch()
-    },
-  })
-
-  const decrementMutation = useMutation({
-    mutationKey: ['counter', 'decrement', { cluster, account }],
-    mutationFn: () => program.methods.decrement().accounts({ counter: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accountQuery.refetch()
-    },
-  })
-
   const incrementMutation = useMutation({
     mutationKey: ['counter', 'increment', { cluster, account }],
     mutationFn: () => program.methods.increment().accounts({ counter: account }).rpc(),
     onSuccess: (tx) => {
       transactionToast(tx)
-      return accountQuery.refetch()
+      accountQuery.refetch()
+      return accounts.refetch()
     },
   })
 
-  const setMutation = useMutation({
-    mutationKey: ['counter', 'set', { cluster, account }],
-    mutationFn: (value: number) => program.methods.set(value).accounts({ counter: account }).rpc(),
+  const decrementMutation = useMutation({
+    mutationKey: ['counter', 'increment', { cluster, account }],
+    mutationFn: () => program.methods.decrement().accounts({ counter: account }).rpc(),
     onSuccess: (tx) => {
       transactionToast(tx)
-      return accountQuery.refetch()
+      accountQuery.refetch()
+      return accounts.refetch()
     },
   })
 
   return {
     accountQuery,
-    closeMutation,
-    decrementMutation,
     incrementMutation,
-    setMutation,
+    decrementMutation,
   }
 }

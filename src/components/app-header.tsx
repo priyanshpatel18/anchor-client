@@ -1,42 +1,26 @@
 'use client'
-import { usePathname } from 'next/navigation'
-import { useState } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Menu, X } from 'lucide-react'
-import { ThemeSelect } from '@/components/theme-select'
-import { ClusterUiSelect } from './cluster/cluster-ui'
-import { WalletButton } from '@/components/solana/solana-provider'
 
-export function AppHeader({ links = [] }: { links: { label: string; path: string }[] }) {
-  const pathname = usePathname()
+import { WalletButton } from '@/components/solana/solana-provider'
+import { ThemeSelect } from '@/components/theme-select'
+import { Button } from '@/components/ui/button'
+import { Github, Menu, X } from 'lucide-react'
+import { Bricolage_Grotesque } from 'next/font/google'
+import Link from 'next/link'
+import { useState } from 'react'
+import { ClusterUiSelect } from './cluster/cluster-ui'
+
+const logoFont = Bricolage_Grotesque({ weight: '400', subsets: ['latin'] })
+
+export function AppHeader() {
   const [showMenu, setShowMenu] = useState(false)
 
-  function isActive(path: string) {
-    return path === '/' ? pathname === '/' : pathname.startsWith(path)
-  }
-
   return (
-    <header className="relative z-50 px-4 py-2 bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-400">
+    <header className="relative z-50 px-4 py-2 bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-400 h-14">
       <div className="mx-auto flex justify-between items-center">
         <div className="flex items-baseline gap-4">
-          <Link className="text-xl hover:text-neutral-500 dark:hover:text-white" href="/">
-            <span>Placeholder</span>
+          <Link className={`text-2xl font-extrabold tracking-tighter ${logoFont.className}`} href="/">
+            <span>counter</span>
           </Link>
-          <div className="hidden md:flex items-center">
-            <ul className="flex gap-4 flex-nowrap items-center">
-              {links.map(({ label, path }) => (
-                <li key={path}>
-                  <Link
-                    className={`hover:text-neutral-500 dark:hover:text-white ${isActive(path) ? 'text-neutral-500 dark:text-white' : ''}`}
-                    href={path}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
         <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setShowMenu(!showMenu)}>
@@ -44,6 +28,9 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
         </Button>
 
         <div className="hidden md:flex items-center gap-4">
+          <Button variant={"outline"} className='p-2' onClick={() => window.open('https://github.com/priyanshpatel18/counter-dapp', '_blank')}>
+            <Github className='h-6 w-6 text-primary' />
+          </Button>
           <WalletButton />
           <ClusterUiSelect />
           <ThemeSelect />
@@ -52,19 +39,6 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
         {showMenu && (
           <div className="md:hidden fixed inset-x-0 top-[52px] bottom-0 bg-neutral-100/95 dark:bg-neutral-900/95 backdrop-blur-sm">
             <div className="flex flex-col p-4 gap-4 border-t dark:border-neutral-800">
-              <ul className="flex flex-col gap-4">
-                {links.map(({ label, path }) => (
-                  <li key={path}>
-                    <Link
-                      className={`hover:text-neutral-500 dark:hover:text-white block text-lg py-2  ${isActive(path) ? 'text-neutral-500 dark:text-white' : ''} `}
-                      href={path}
-                      onClick={() => setShowMenu(false)}
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
               <div className="flex flex-col gap-4">
                 <WalletButton />
                 <ClusterUiSelect />

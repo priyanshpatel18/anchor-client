@@ -9,16 +9,7 @@
   "instructions": [
     {
       "name": "decrement",
-      "discriminator": [
-        106,
-        227,
-        168,
-        59,
-        248,
-        27,
-        150,
-        101
-      ],
+      "discriminator": [106, 227, 168, 59, 248, 27, 150, 101],
       "accounts": [
         {
           "name": "user",
@@ -34,16 +25,7 @@
     },
     {
       "name": "increment",
-      "discriminator": [
-        11,
-        18,
-        104,
-        9,
-        104,
-        174,
-        59,
-        33
-      ],
+      "discriminator": [11, 18, 104, 9, 104, 174, 59, 33],
       "accounts": [
         {
           "name": "user",
@@ -59,16 +41,7 @@
     },
     {
       "name": "initialize",
-      "discriminator": [
-        175,
-        175,
-        109,
-        31,
-        13,
-        152,
-        155,
-        237
-      ],
+      "discriminator": [175, 175, 109, 31, 13, 152, 155, 237],
       "accounts": [
         {
           "name": "counter",
@@ -91,16 +64,7 @@
   "accounts": [
     {
       "name": "Counter",
-      "discriminator": [
-        255,
-        176,
-        4,
-        245,
-        188,
-        253,
-        124,
-        25
-      ]
+      "discriminator": [255, 176, 4, 245, 188, 253, 124, 25]
     }
   ],
   "types": [

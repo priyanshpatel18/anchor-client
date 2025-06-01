@@ -15,26 +15,19 @@ describe('counter', () => {
 
   it('Initialize Counter', async () => {
     try {
-      await program.methods
-        .initialize()
-        .accounts({ counter: counterKeypair.publicKey, })
-        .signers([counterKeypair])
-        .rpc()
-  
+      await program.methods.initialize().accounts({ counter: counterKeypair.publicKey }).signers([counterKeypair]).rpc()
+
       const currentCount = await program.account.counter.fetch(counterKeypair.publicKey)
-  
+
       expect(currentCount.count.toNumber()).toEqual(0)
     } catch (error) {
-      console.error(error);
+      console.error(error)
       throw error
     }
   })
 
   it('Increment Counter', async () => {
-    await program.methods
-      .increment()
-      .accounts({ counter: counterKeypair.publicKey, user: payer.publicKey })
-      .rpc()
+    await program.methods.increment().accounts({ counter: counterKeypair.publicKey, user: payer.publicKey }).rpc()
 
     const currentCount = await program.account.counter.fetch(counterKeypair.publicKey)
 
@@ -42,10 +35,7 @@ describe('counter', () => {
   })
 
   it('Increment Counter Again', async () => {
-    await program.methods
-      .increment()
-      .accounts({ counter: counterKeypair.publicKey, user: payer.publicKey })
-      .rpc()
+    await program.methods.increment().accounts({ counter: counterKeypair.publicKey, user: payer.publicKey }).rpc()
 
     const currentCount = await program.account.counter.fetch(counterKeypair.publicKey)
 
@@ -53,10 +43,7 @@ describe('counter', () => {
   })
 
   it('Decrement Counter', async () => {
-    await program.methods
-      .decrement()
-      .accounts({ counter: counterKeypair.publicKey, user: payer.publicKey })
-      .rpc()
+    await program.methods.decrement().accounts({ counter: counterKeypair.publicKey, user: payer.publicKey }).rpc()
 
     const currentCount = await program.account.counter.fetch(counterKeypair.publicKey)
 
