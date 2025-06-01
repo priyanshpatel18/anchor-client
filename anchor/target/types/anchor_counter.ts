@@ -2,42 +2,17 @@
  * Program IDL in camelCase format in order to be used in JS/TS.
  *
  * Note that this is only a type helper and is not the actual IDL. The original
- * IDL can be found at `target/idl/counter.json`.
+ * IDL can be found at `target/idl/anchor_counter.json`.
  */
-export type Counter = {
-  "address": "5DVDu5fzay8qxyG2WLydEainV6zToyGzHLCFCnkV36jZ",
+export type AnchorCounter = {
+  "address": "AWNmoKxezYKbX3hgHLYo1Ctq8dvkiXYS4TbBqJn7pDAs",
   "metadata": {
-    "name": "counter",
+    "name": "anchorCounter",
     "version": "0.1.0",
     "spec": "0.1.0",
     "description": "Created with Anchor"
   },
   "instructions": [
-    {
-      "name": "close",
-      "discriminator": [
-        98,
-        165,
-        201,
-        177,
-        108,
-        65,
-        206,
-        96
-      ],
-      "accounts": [
-        {
-          "name": "payer",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "counter",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
     {
       "name": "decrement",
       "discriminator": [
@@ -51,6 +26,11 @@ export type Counter = {
         101
       ],
       "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
         {
           "name": "counter",
           "writable": true
@@ -72,6 +52,11 @@ export type Counter = {
       ],
       "accounts": [
         {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
           "name": "counter",
           "writable": true
         }
@@ -92,12 +77,12 @@ export type Counter = {
       ],
       "accounts": [
         {
-          "name": "payer",
+          "name": "counter",
           "writable": true,
           "signer": true
         },
         {
-          "name": "counter",
+          "name": "user",
           "writable": true,
           "signer": true
         },
@@ -107,31 +92,6 @@ export type Counter = {
         }
       ],
       "args": []
-    },
-    {
-      "name": "set",
-      "discriminator": [
-        198,
-        51,
-        53,
-        241,
-        116,
-        29,
-        126,
-        194
-      ],
-      "accounts": [
-        {
-          "name": "counter",
-          "writable": true
-        }
-      ],
-      "args": [
-        {
-          "name": "value",
-          "type": "u8"
-        }
-      ]
     }
   ],
   "accounts": [
@@ -157,7 +117,7 @@ export type Counter = {
         "fields": [
           {
             "name": "count",
-            "type": "u8"
+            "type": "u64"
           }
         ]
       }
