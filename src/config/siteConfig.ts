@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 const { title, description, ogImage, baseURL } = {
   title: 'Solana Counter dApp - Decentralized Counting Platform',
   description:
-    " ",
+    "A modern decentralized application built on Solana blockchain for creating and managing counters. Experience real-time counting with seamless Web3 interactions, powered by Solana's fast and low-cost infrastructure.",
   baseURL: 'https://counter-dapp.priyanshpatel.com',
   ogImage: `https://counter-dapp.priyanshpatel.com/open-graph.png`,
 }
