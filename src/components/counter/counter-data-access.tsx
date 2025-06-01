@@ -36,7 +36,11 @@ export function useCounterProgram() {
     mutationKey: ['counter', 'initialize', { cluster }],
     mutationFn: (keypair: Keypair) =>
       program.methods.initialize().accounts({ counter: keypair.publicKey }).signers([keypair]).rpc(),
-    onSuccess: (signature) => transactionToast(signature),
+    onSuccess: async (signature) => {
+      const updatedAccounts = await accounts.refetch() 
+      transactionToast(signature)
+      return updatedAccounts
+    },
     onError: () => toast.error(`Failed to initialize account`),
   })
 
