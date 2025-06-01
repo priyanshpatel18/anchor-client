@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 
 const DISCRIMINATOR: usize = 8;
 
-declare_id!("AWNmoKxezYKbX3hgHLYo1Ctq8dvkiXYS4TbBqJn7pDAs");
+declare_id!("fJQXo3PFRjoBVKzLU5xsfU8wdJbHBkTkX8oWFbpvvGr");
 
 #[program]
 pub mod anchor_counter {
@@ -13,7 +13,7 @@ pub mod anchor_counter {
         let counter = &mut ctx.accounts.counter;
         counter.count = 0;
         msg!("Counter Account Created");
-        msg!("Current Count: { }", counter.count);
+        msg!("Current Count: {}", counter.count);
 
         Ok(())
     }
@@ -21,7 +21,7 @@ pub mod anchor_counter {
     // Add Increment Instruction
     pub fn increment(ctx: Context<Update>) -> Result<()> {
         let counter = &mut ctx.accounts.counter;
-        counter.count = counter.count.checked_add(1).unwrap();
+        counter.count = counter.count + 1;
         msg!("Updated Counter: {}", counter.count);
         Ok(())
     }
@@ -29,7 +29,7 @@ pub mod anchor_counter {
     // Add Decement Instruction
     pub fn decrement(ctx: Context<Update>) -> Result<()> {
         let counter = &mut ctx.accounts.counter;
-        counter.count = counter.count.saturating_sub(1);
+        counter.count = counter.count - 1;
         msg!("Updated Counter: {}", counter.count);
         Ok(())
     }

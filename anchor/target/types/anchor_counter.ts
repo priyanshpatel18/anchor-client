@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/anchor_counter.json`.
  */
 export type AnchorCounter = {
-  "address": "AWNmoKxezYKbX3hgHLYo1Ctq8dvkiXYS4TbBqJn7pDAs",
+  "address": "fJQXo3PFRjoBVKzLU5xsfU8wdJbHBkTkX8oWFbpvvGr",
   "metadata": {
     "name": "anchorCounter",
     "version": "0.1.0",
